@@ -15,7 +15,7 @@ contract DegenToken is ERC20, Ownable {
 
     mapping(uint256 => uint256) public ShopPrices;
 
-    constructor() ERC20("Llanes", "CHAN") Ownable(msg.sender) {
+    constructor() ERC20("Degen", "DGN") Ownable(msg.sender) {
         ShopPrices[1] = 100;
         ShopPrices[2] = 60;
         ShopPrices[3] = 30;
@@ -23,11 +23,11 @@ contract DegenToken is ERC20, Ownable {
     }
 
 
-    function mintCHN(address _to, uint256 _amount) public onlyOwner {
+    function mint(address _to, uint256 _amount) public onlyOwner {
         _mint(_to, _amount);
     }
 
-    function transferCHN(address _to, uint256 _amount) public {
+    function transfer(address _to, uint256 _amount) public {
         require(balanceOf(msg.sender) >= _amount, "Transfer Failed: Insufficient balance.");
         approve(msg.sender, _amount);
         transferFrom(msg.sender, _to, _amount);
@@ -38,14 +38,14 @@ contract DegenToken is ERC20, Ownable {
         return saleOptions;
     }
 
-    function redeemCHN(uint256 _item) public {
+    function redeem(uint256 _item) public {
         require(ShopPrices[_item] > 0, "Item is not available.");
         require(_item <= 4, "Item is not available.");
         require(balanceOf(msg.sender) >= ShopPrices[_item], "Redeem Failed: Insufficient balance.");
         transfer(owner(), ShopPrices[_item]);
     }
     
-    function burnCHN(uint256 _amount) public {
+    function burn(uint256 _amount) public {
         require(balanceOf(msg.sender) >= _amount, "Burn Failed: Insufficient balance.");
         approve(msg.sender, _amount);
         _burn(msg.sender, _amount);
