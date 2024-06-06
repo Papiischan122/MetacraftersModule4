@@ -39,14 +39,17 @@ contract DegenToken is ERC20, Ownable {
     }
 
     function redeemDGN(uint256 _item) public {
-        require(ShopPrices[_item] > 0, "Item is not available.");
-        require(_item <= 4, "Item is not available.");
-        require(balanceOf(msg.sender) >= ShopPrices[_item], "Redeem Failed: Insufficient balance.");
-        transfer(owner(), ShopPrices[_item]);
+    require(ShopPrices[_item] > 0, "Item is not available.");
+    require(_item <= 4, "Item is not available.");
+    require(balanceOf(msg.sender) >= ShopPrices[_item], "Redeem Failed: Insufficient balance.");
 
-        // Add the redeemed item to the player's inventory
-        playerItems[msg.sender].push(_item);
-    }
+    // Transfer tokens to the owner
+    transfer(owner(), ShopPrices[_item]);
+
+    // Add the redeemed item to the player's inventory
+    playerItems[msg.sender].push(_item);
+}
+
     
     function burnDGN(uint256 _amount) public {
         require(balanceOf(msg.sender) >= _amount, "Burn Failed: Insufficient balance.");
